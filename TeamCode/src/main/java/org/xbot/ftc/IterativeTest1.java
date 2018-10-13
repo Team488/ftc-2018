@@ -27,12 +27,13 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode;
+package  org.xbot.ftc;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -49,14 +50,20 @@ import com.qualcomm.robotcore.util.Range;
  * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
-
-@TeleOp(name="4wheel Basic", group="Iterative Opmode")
-public class BasicOpMode_Iterative extends OpMode
-{
+//@Disabled
+@TeleOp(name="Basic: Iterative OpMode", group="Iterative Opmode")
+public class IterativeTest1 extends OpMode {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftDrive = null;
     private DcMotor rightDrive = null;
+    private DcMotor armJoint = null;
+    private DcMotor armExtender = null;
+    private DcMotor intake = null;
+    private Servo trapdoor = null;
+
+    private final double servoClosed = 0;
+    private final double servoOpen = .5;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -68,13 +75,22 @@ public class BasicOpMode_Iterative extends OpMode
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
-        leftDrive  = hardwareMap.get(DcMotor.class, "left_drive");
         rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
+        leftDrive = hardwareMap.get(DcMotor.class, "left_drive");
+        armJoint = hardwareMap.get(DcMotor.class, "arm_joint");
+        armExtender = hardwareMap.get(DcMotor.class, "arm_extender");
+        intake = hardwareMap.get(DcMotor.class, "intake");
+        trapdoor = hardwareMap.get(Servo.class, "trapdoor");
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
         leftDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightDrive.setDirection(DcMotor.Direction.FORWARD);
+        armJoint.setDirection(DcMotor.Direction.FORWARD);
+        armExtender.setDirection(DcMotor.Direction.FORWARD);
+        intake.setDirection(DcMotor.Direction.FORWARD);
+        trapdoor.setDirection(Servo.Direction.FORWARD);
+
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
@@ -100,6 +116,9 @@ public class BasicOpMode_Iterative extends OpMode
      */
     @Override
     public void loop() {
+
+        gamepad2.setJoystickDeadzone(1);
+
         // Setup a variable for each drive wheel to save power level for telemetry
         double leftPower;
         double rightPower;
@@ -110,9 +129,9 @@ public class BasicOpMode_Iterative extends OpMode
         // POV Mode uses left stick to go forward, and right stick to turn.
         // - This uses basic math to combine motions and is easier to drive straight.
         double drive = -gamepad1.left_stick_y;
-        double turn  =  gamepad1.right_stick_x;
-        leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
-        rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
+        double turn = gamepad1.right_stick_x;
+        leftPower = Range.clip(drive + turn, -1.0, 1.0);
+        rightPower = Range.clip(drive - turn, -1.0, 1.0);
 
         // Tank Mode uses one stick to control each wheel.
         // - This requires no math, but it is hard to drive forward slowly and keep straight.
@@ -123,16 +142,53 @@ public class BasicOpMode_Iterative extends OpMode
         leftDrive.setPower(leftPower);
         rightDrive.setPower(rightPower);
 
-        // Show the elapsed game time and wheel power.
+
+        // move arm joint
+
+        armJoint.setPower(gamepad2.right_stick_y);
+
+        //move arm extender
+
+
+        armExtender.setPower(gamepad2.left_stick_y);
+
+
+        // spin intake
+
+        if (gamepad2.right_bumper) {
+            intake.setPower(1);
+        } else if (gamepad2.left_bumper) {
+            intake.setPower(-1);
+        } else {
+            intake.setPower(0);
+        }
+
+        //trapdoor servo help pls
+
+        if (gamepad2.x) {
+            trapdoor.setPosition(servoOpen);
+        } else {
+            trapdoor.setPosition(servoClosed);
+        }
+
+
+        // Show the elapsed game time.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
-        telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
+        // Show the current Motor and Servo power.
+        telemetry.addData("Status", "Run Time: " + runtime.toString());
+        telemetry.addData("Drive Motors", "left (%.2f), right (%.2f)", leftDrive.getPower(), rightDrive.getPower());
+        telemetry.addData("Arm Joint Power:", "Joint (%.2f)", armJoint.getPower());
+        telemetry.addData("Arm Extender Power:","Extender (%.2f)", armExtender.getPower());
+        telemetry.addData("Intake Power:","Intake (%.2f)", intake.getPower());
+        telemetry.addData("Trapdoor Position:","Trapdoor (%.2f)", trapdoor.getPosition());
     }
 
     /*
      * Code to run ONCE after the driver hits STOP
      */
-    @Override
-    public void stop() {
-    }
+        @Override
+        public void stop() {
 
-}
+        }
+
+    }

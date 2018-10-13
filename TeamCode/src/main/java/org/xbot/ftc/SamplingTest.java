@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package  org.xbot.ftc;
 
 import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.disnodeteam.dogecv.DogeCV;
@@ -8,7 +8,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.HardwarePushbot;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @Autonomous(name="Auto Sampling Test", group="Pushbot")

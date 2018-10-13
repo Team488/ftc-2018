@@ -14,3 +14,11 @@ dependencies {
     implementation project(':DogeCV')
     implementation project(':openCVLibrary3')
 }
+
+android {
+    sourceSets {
+        main {
+            java.srcDirs = ['src/main/java', 'TeamCode/java/or.firstinspires.ftc.teamcode', 'TeamCode/java/org.firstinspires.ftc.teamcode.operatingcode']
+        }
+    }
+}
