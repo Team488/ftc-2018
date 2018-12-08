@@ -1,9 +1,9 @@
 package org.xbot.ftc.robotcore.subsystems.arm;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
-import org.xbot.ftc.robotcore.subsystems.intake.Intake;
-
+// import org.xbot.ftc.robotcore.subsystems.intake.Intake;
 public class OperateArm {
     private Arm arm;
 

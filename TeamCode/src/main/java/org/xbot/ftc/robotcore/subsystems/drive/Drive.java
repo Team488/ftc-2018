@@ -15,10 +15,8 @@ public class Drive extends XbotSubsystem {
     private static XbotSubsystem instance = null;
     private static boolean initialized = false;
 
-    private DcMotor leftRearDriveMotor = null;
-    private DcMotor rightRearDriveMotor = null;
-    private DcMotor leftFrontDriveMotor = null;
-    private DcMotor rightFrontDriveMotor = null;
+    private DcMotor rightDriveMotors = null;
+    private DcMotor leftDriveMotors = null;
 
     private DcMotor[] motorArr;
 
@@ -62,16 +60,12 @@ public class Drive extends XbotSubsystem {
         if (initialized) return;
 
         super.init(hardwareMap, telemetry);
-        leftRearDriveMotor = hardwareMap.get(DcMotor.class, XbotRobotConstants.BACK_LEFT_MOTOR);
-        rightRearDriveMotor = hardwareMap.get(DcMotor.class, XbotRobotConstants.BACK_RIGHT_MOTOR);
-        leftFrontDriveMotor = hardwareMap.get(DcMotor.class, XbotRobotConstants.FRONT_LEFT_MOTOR);
-        rightFrontDriveMotor = hardwareMap.get(DcMotor.class, XbotRobotConstants.FRONT_RIGHT_MOTOR);
+        leftDriveMotors = hardwareMap.get(DcMotor.class, XbotRobotConstants.LEFT_DRIVE);
+        rightDriveMotors = hardwareMap.get(DcMotor.class, XbotRobotConstants.RIGHT_DRIVE);
 
         motorArr = new DcMotor[4];
-        motorArr[0] = leftRearDriveMotor;
-        motorArr[1] = leftFrontDriveMotor;
-        motorArr[2] = rightRearDriveMotor;
-        motorArr[3] = rightFrontDriveMotor;
+        motorArr[0] = leftDriveMotors;
+        motorArr[1] = rightDriveMotors;
 
         for (DcMotor motor : motorArr) {
             motor.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -89,10 +83,8 @@ public class Drive extends XbotSubsystem {
     public void setMotorPowers(double leftPower, double rightPower) {
         leftPower *= motorPowerMultiplier;
         rightPower *= motorPowerMultiplier;
-        leftRearDriveMotor.setPower(leftPower);
-        leftFrontDriveMotor.setPower(leftPower);
-        rightRearDriveMotor.setPower(rightPower);
-        rightRearDriveMotor.setPower(rightPower);
+        leftDriveMotors.setPower(leftPower);
+        rightDriveMotors.setPower(rightPower);
     }
 
     public void setMotorPowers(double power) {
@@ -109,18 +101,12 @@ public class Drive extends XbotSubsystem {
     }
 
     public void encoderDrive(double power, double leftInches, double rightInches, double timeout) {
-        int leftRearTarget = leftRearDriveMotor.getCurrentPosition() +
+        int leftTarget = leftDriveMotors.getCurrentPosition() +
                 (int)(leftInches * COUNTS_PER_INCH);
-        int leftFrontTarget = leftFrontDriveMotor.getCurrentPosition() +
-                (int)(leftInches * COUNTS_PER_INCH);
-        int rightRearTarget = rightRearDriveMotor.getCurrentPosition() +
+        int rightTarget = rightDriveMotors.getCurrentPosition() +
                 (int)(rightInches * COUNTS_PER_INCH);
-        int rightFrontTarget = rightFrontDriveMotor.getCurrentPosition() +
-                (int)(rightInches * COUNTS_PER_INCH);
-        leftFrontDriveMotor.setTargetPosition(leftFrontTarget);
-        leftRearDriveMotor.setTargetPosition(leftRearTarget);
-        rightFrontDriveMotor.setTargetPosition(rightFrontTarget);
-        rightRearDriveMotor.setTargetPosition(rightRearTarget);
+        leftDriveMotors.setTargetPosition(leftTarget);
+        rightDriveMotors.setTargetPosition(rightTarget);
 
         for (DcMotor motor : motorArr) {
             motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -153,20 +139,12 @@ public class Drive extends XbotSubsystem {
         return false;
     }
 
-    public DcMotor getLeftRearDriveMotor() {
-        return leftRearDriveMotor;
+    public DcMotor getLeftMotors() {
+        return leftDriveMotors;
     }
 
-    public DcMotor getLeftFrontDriveMotor() {
-        return leftFrontDriveMotor;
-    }
-
-    public DcMotor getRightRearDriveMotor() {
-        return rightRearDriveMotor;
-    }
-
-    public DcMotor getRightFrontDriveMotor() {
-        return rightFrontDriveMotor;
+    public DcMotor getRightMotors() {
+        return rightDriveMotors;
     }
 
     public ArcadeDrive getArcadeDrive() {

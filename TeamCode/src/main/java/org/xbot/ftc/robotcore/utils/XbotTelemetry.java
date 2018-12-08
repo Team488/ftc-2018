@@ -46,11 +46,7 @@ public class XbotTelemetry {
         try {
             if (lastLogTime + .5 < RobotSubsystemManager.getInstance().getGameClock().getTimeElapsed() ) {
                 outputStream = new FileOutputStream(file, true);
-                fileContents = Double.toString(RobotSubsystemManager.getInstance().getGameClock().getTimeElapsed()) + ", " + "" + "\n";
-                printWriter = new PrintWriter(outputStream);
-                printWriter.append(fileContents);
-                printWriter.close();
-                lastLogTime = RobotSubsystemManager.getInstance().getGameClock().getTimeElapsed();
+
             }
         } catch (Exception e) {
             e.printStackTrace();

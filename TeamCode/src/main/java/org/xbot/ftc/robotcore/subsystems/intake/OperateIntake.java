@@ -1,7 +1,9 @@
 package org.xbot.ftc.robotcore.subsystems.intake;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
+/*
 public class OperateIntake {
     private Intake intake;
 
@@ -20,3 +22,4 @@ public class OperateIntake {
         intake.setIntakePower(0);
     }
 }
+*/

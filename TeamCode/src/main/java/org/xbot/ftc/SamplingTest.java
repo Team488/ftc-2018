@@ -9,12 +9,11 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-
+@Disabled
 @Autonomous(name="Auto Sampling Test", group="Pushbot")
 public class SamplingTest extends LinearOpMode {
 
     private SamplingOrderDetector detector;
-    HardwarePushbot robot = new HardwarePushbot();   // Use a Pushbot's hardware
     private ElapsedTime runtime = new ElapsedTime();
     public String cubeLocation = "NULL";
     public double timeToWait = 0;
@@ -25,8 +24,6 @@ public class SamplingTest extends LinearOpMode {
         detector.useDefaults();
 
         detector.downscale = 0.4; // How much to downscale the input frames
-
-        robot.init(hardwareMap);
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Ready to run");    //
         telemetry.update();

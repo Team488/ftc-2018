@@ -1,5 +1,6 @@
-package org.xbot.ftc.robotcore.subsystems.intake;
+//package org.xbot.ftc.robotcore.subsystems.intake;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -9,6 +10,7 @@ import org.xbot.ftc.robotcore.XbotRobotConstants;
 import org.xbot.ftc.robotcore.subsystems.XbotSubsystem;
 import org.xbot.ftc.robotcore.utils.GameClock;
 
+/*
 public class Intake extends XbotSubsystem {
 
     private static XbotSubsystem instance = null;
@@ -51,3 +53,4 @@ public class Intake extends XbotSubsystem {
     }
 
 }
+*/
